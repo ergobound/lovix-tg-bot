@@ -1,0 +1,11 @@
+__pycache__
+backend
+checks
+files
+images/answers
+images/applications
+images/newsletters
+images/reviews
+other
+.env
+test.py
