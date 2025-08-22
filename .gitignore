@@ -1,5 +1,7 @@
 __pycache__
-backend
+backend/__
+pycache__
+backend/test-request.py
 checks
 files
 images/answers

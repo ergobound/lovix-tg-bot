@@ -7,7 +7,7 @@ from telegram import (
 from telegram.ext import (
     ContextTypes
 )
-from typing import Optional # 
+from typing import Optional, Union
 from telegram.constants import ParseMode
 from random import randint
 from constants import *
@@ -164,7 +164,7 @@ def extract_images_from_pdf(pdf_path, output_dir):
     except Exception as e:
         print(f"Ошибка при обработке PDF: {e}")
 
-def find_qr_in_image(image_path) -> list | None:
+def find_qr_in_image(image_path) -> Union[list, None]:
     """
     Находит QR-коды в изображении.
     Args:
@@ -221,7 +221,7 @@ def rename_file(file_name: str, path: str) -> str:
     return file_name_new
 
 
-async def get_image(update: Update, path: str) -> str | None:
+async def get_image(update: Update, path: str) -> Union[str, None]:
     '''Скачивание файла.
     Возвращает путь до скаченного файла или None.
     update - обязательно;
@@ -245,7 +245,7 @@ async def get_image(update: Update, path: str) -> str | None:
         return photo_path
     return None
 
-async def get_pdf(update: Update, path: str) -> str | None:
+async def get_pdf(update: Update, path: str) -> Union[str, None]:
     '''Скачивание pdf файла в путь path'''
     message = update.to_dict().get('message')
     if not message: return

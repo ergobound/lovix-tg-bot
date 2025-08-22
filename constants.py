@@ -7,7 +7,7 @@ BOT_NAME = 'nexterrorbot' # lovixbot
 CHANNEL_ID = -1001897814685 # -1002006611158
 CHANNEL_LINK = "t.me/nexterror" # "t.me/lovix_me"
 # WEBURL = "https://webe.duckdns.org"
-WEBURL = "https://lovixbot.netlify.app"
+WEBURL = "https://lovixbot.duckdns.org"
 ADMINS = [479917441]
 DEVELOPER = 479917441
 

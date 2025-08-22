@@ -1,0 +1,5 @@
+fastapi[all]
+requests
+mysql-connector-python
+dotenv
+serverless-wsgi

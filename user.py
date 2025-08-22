@@ -53,8 +53,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await consent(update, context)
     else:
         # юзер меню
-        bonuses = result[0][3]
-        text = content.user.MAINMENU % bonuses
+        # bonuses = result[0][3] # количество бонусов пользователя
+        bonuses = dict(connect_mysql("SELECT * FROM bonuses"))
+        check = bonuses.get(bonustype.CHECK)
+        review = bonuses.get(bonustype.REVIEW)
+        text = content.user.MAINMENU % (check, review)
         keyboard = [[InlineKeyboardButton("Пройти тест", callback_data=str(SOLO_TEST))],
                     [InlineKeyboardButton("Начислить бонусы", callback_data=str(GET_BONUSES))],
                     [InlineKeyboardButton("Обменять бонусы на подарки",
@@ -132,17 +135,22 @@ async def contact(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             text = "Некорректный ввод номера.\nПопробуйте снова:"
             await update.effective_user.send_message(text=text)
             return SHARE_PHONE
-    bonus = dict(connect_mysql("SELECT * FROM bonuses")).get(bonustype.WELCOME)
-    connect_mysql("INSERT INTO users (user_id, username, phone, bonuses, lastmove) VALUES (%s, %s, %s, %s, %s)", (user_id, username, phone, bonus, now_time()))
+    bonuses = dict(connect_mysql("SELECT * FROM bonuses"))
+    welcome_bonus = bonuses.get(bonustype.WELCOME)
+    follow_bonus = bonuses.get(bonustype.FOLLOW)
+    connect_mysql("INSERT INTO users (user_id, username, phone, bonuses, lastmove) VALUES (%s, %s, %s, %s, %s)", (user_id, username, phone, welcome_bonus, now_time()))
     # так же создаем строчку пользователя в таблице, где фиксируются полученные подарки:
     connect_mysql("INSERT INTO purchased_gifts (user_id) VALUES (%s)", (user_id,))
     # connect_mysql("UPDATE users SET bonuses = bonuses + %s WHERE user_id = %s", (bonus, user_id))
 
-    text = "Добро пожаловать!\nПолучено %s бонусов за первый запуск бота" % bonus
+    # Здесь нужно любое сообщение, чтобы удалить клавиатуру
+    text = "Добро пожаловать!"
+    text = content.user.WELCOME
     await update.effective_user.send_message(text=text,
                                              reply_markup=ReplyKeyboardRemove())
+    
     # Если все ок, то отправляем сообщение розыгрыша (Raffle)
-    text = content.user.RAFFLE
+    text = content.user.RAFFLE % (welcome_bonus, follow_bonus, BOT_NAME, BOT_NAME)
     image = PLUG
     keyboard = [[InlineKeyboardButton("Подписаться на канал", url=CHANNEL_LINK)],
                 [InlineKeyboardButton("Участвую!", callback_data=str(RAFFLE_ENTRY))]]
@@ -336,7 +344,7 @@ async def check(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await construct_message(update, text, reply_markup)
     return WAIT_CHECK
 
-def qr_data_correct(data: str) -> dict | None:
+def qr_data_correct(data: str) -> Union[dict, None]:
     # data = "t=20250618T162220&s=234.00&fn=7380440801036664&i=123309&fp=274542987&n=1"
     try:
         data = data.split('&')
