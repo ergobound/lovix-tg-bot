@@ -4,7 +4,7 @@
   "Questions": {
     "1": {
       "Quest": "Представь, что босс повесил на тебя большой проект с горящими дедлайнами. Как ты будешь его сдавать?",
-      "Image": "images/plug.png",
+      "Image": "images/fill/1.png",
       "A": {
         "Answer": "В последний момент и через жопу, зато с харизмой",
         "Products": [
@@ -38,7 +38,7 @@
     },
     "2": {
       "Quest": "В очереди за хлебом нахальная бабуля отодвигает тебя локтем и лезет вперед. Твои действия?",
-      "Image": "images/plug.png",
+      "Image": "images/fill/2.png",
       "A": {
         "Answer": "Отодвигаю её локтем и лезу вперёд обратно: хочет по-жестче — будет по-жестче",
         "Products": [
@@ -72,7 +72,7 @@
     },
     "3": {
       "Quest": "Ты на шопинге. Как выбираешь, что попадёт в корзину?",
-      "Image": "images/plug.png",
+      "Image": "images/fill/3.png",
       "A": {
         "Answer": "Понравилась упаковка — беру",
         "Products": [
@@ -106,7 +106,7 @@
     },
     "4": {
       "Quest": "Как ты справляешься с эмоциональной перегрузкой?",
-      "Image": "images/plug.png",
+      "Image": "images/fill/4.png",
       "A": {
         "Answer": "Секс, еда, сон — повторять, пока не отпустит",
         "Products": [
@@ -140,7 +140,7 @@
     },
     "5": {
       "Quest": "День перед важной встречей. Как ты себя ведёшь?",
-      "Image": "images/plug.png",
+      "Image": "images/fill/5.png",
       "A": {
         "Answer": "Не переживаю — включу шарм, меня всё прощают",
         "Products": [
@@ -215,5 +215,13 @@
     "4": "Sensitive",
     "5": "Гель для душа",
     "6": "Интимные гели"
+  },
+  "Images": {
+    "1": "images/fill/lubric.png",
+    "2": "images/fill/misty.png",
+    "3": "images/fill/maslo.png",
+    "4": "images/fill/senset.png",
+    "5": "images/fill/gel.png",
+    "6": "images/fill/intim_gel.png"
   }
 }

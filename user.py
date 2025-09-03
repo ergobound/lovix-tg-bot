@@ -52,12 +52,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         context.user_data['data invite control'] = data
         await consent(update, context)
     else:
-        # юзер меню
-        # bonuses = result[0][3] # количество бонусов пользователя
-        bonuses = dict(connect_mysql("SELECT * FROM bonuses"))
+        bonus_score = result[0][3] # количество бонусов пользователя
+        bonuses = dict(connect_mysql("SELECT * FROM bonuses")) # расценки получения бонусов
         check = bonuses.get(bonustype.CHECK)
         review = bonuses.get(bonustype.REVIEW)
-        text = content.user.MAINMENU % (check, review)
+        text = content.user.MAINMENU % (check, review, bonus_score)
         keyboard = [[InlineKeyboardButton("Пройти тест", callback_data=str(SOLO_TEST))],
                     [InlineKeyboardButton("Начислить бонусы", callback_data=str(GET_BONUSES))],
                     [InlineKeyboardButton("Обменять бонусы на подарки",
@@ -150,7 +149,7 @@ async def contact(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                                              reply_markup=ReplyKeyboardRemove())
     
     # Если все ок, то отправляем сообщение розыгрыша (Raffle)
-    text = content.user.RAFFLE % (welcome_bonus, follow_bonus, BOT_NAME, BOT_NAME)
+    text = content.user.RAFFLE % (welcome_bonus, follow_bonus, BOT_NAME, CHANNEL_NAME)
     image = PLUG
     keyboard = [[InlineKeyboardButton("Подписаться на канал", url=CHANNEL_LINK)],
                 [InlineKeyboardButton("Участвую!", callback_data=str(RAFFLE_ENTRY))]]
@@ -280,12 +279,13 @@ async def test_final(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     results = user_data["test content"]["Results"][number] 
     for name, desc in results.items():
         text = f"{name}\n\n{desc}"
-
+    
+    image = user_data["test content"]["Images"][number]
 
     reply_markup = InlineKeyboardMarkup(back_menu)
 
-    # Отправляем текст результата теста:
-    await construct_message(update, text)
+    # Отправляем текст и картинку результата теста:
+    await construct_message(update, text, image=image)
 
     # Блокируем получение промокода при повторном прохождении теста:
     used_before = connect_mysql("SELECT * FROM users_promocodes WHERE user_id = %s", (user_id,))

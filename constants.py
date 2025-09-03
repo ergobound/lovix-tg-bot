@@ -6,6 +6,7 @@ TOKEN = os.getenv('TOKEN_LOVIX')
 BOT_NAME = 'nexterrorbot' # lovixbot
 CHANNEL_ID = -1001897814685 # -1002006611158
 CHANNEL_LINK = "t.me/nexterror" # "t.me/lovix_me"
+CHANNEL_NAME = "nexterror"
 # WEBURL = "https://webe.duckdns.org"
 WEBURL = "https://lovixbot.duckdns.org"
 ADMINS = [479917441]
